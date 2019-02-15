@@ -57,18 +57,19 @@ class CLI
     puts "Enter your name."#ask for student name
     name = gets.chomp
     current_student = Student.find_by(name: name)
+      #if not exists, create student
       if current_student == nil
         @student_user = Student.create(:name => name)
-        puts "Thank you, " + name + ". You\'re now a registered CLIENT user."
+        puts "Welcome, " + name + ". You\'re now a registered CLIENT user. Press Return to continue to the Main Menu."
+        gets
       else
         @student_user = current_student
+        #if it exists, assign it to an instance variable
         puts ""
         puts "Welcome back " + @student_user.name + "! Press Return to continue."
         puts ""
         gets
       end
-    #if it exists, assign it to an instance variable
-    #if not exists, create student
   end
 
   # def create_student(name)
@@ -78,17 +79,17 @@ class CLI
   #   sleep(3)
   # end
 
-  def find_student
-    current_student = Student.find_by(name: @student_user)
-    # If me_student.is_empty? == true || me_student == nil
-      puts "Welcome back " + me_student.name.to_s + "! Press Return to continue."
-      gets
-
-    # else
-    #   puts "No record exists for " + me_student + ". Please try again."
-    #   break
-    # end
-  end
+  # def find_student
+  #   current_student = Student.find_by(name: @student_user)
+  #   # If me_student.is_empty? == true || me_student == nil
+  #     puts "Welcome back " + me_student.name.to_s + "! Press Return to continue."
+  #     gets
+  #
+  #   # else
+  #   #   puts "No record exists for " + me_student + ". Please try again."
+  #   #   break
+  #   # end
+  # end
 
 
   def register_student
@@ -102,13 +103,13 @@ class CLI
       if course_ids.include?(course_id.to_i)
         reg = StudentCourse.create(student_id: @student_user.id, course_id: course_id.to_i, rating: 0)
         puts "Registration successful!"
+        puts ""
         puts "Press Enter to continue."
         gets
         break
       else
         puts "Please select an ID from the course list."
         print '>> '
-
       end
     end
   end
@@ -127,6 +128,8 @@ class CLI
         @student_user.courses.each {|c|
                           puts c.id.to_s + " - " + c.title
                                       }
+        puts "Press Return to continue."
+        gets
       else
         puts "You haven't registered for any courses. Press Return to continue."
         gets
@@ -140,35 +143,36 @@ class CLI
       puts "Enter the number of the course rating you would like to update. "
       puts ""
       puts ""
-      puts ">>"
-      course_id = get_input.to_i
-      student_course_to_update = @student_user.student_courses.find_by(course_id: course_id)
+      print '>> '
+      course_id = get_input
+      student_course_to_update = @student_user.student_courses.find_by(course_id: course_id.to_i)
       puts ""
       puts ""
       puts "Enter the new rating. "
       puts ""
       puts ""
-      puts ">>"
-      new_rating = get_input.to_i
-      student_course_to_update.update(rating: new_rating)
+      print '>> '
+      new_rating = get_input
+      student_course_to_update.rating = new_rating.to_i
+      student_course_to_update.save
       puts ""
       puts ""
-      puts "You have updated the rating. Press Return to continue."
+      puts "You have updated the rating for " +course_to_update.name.to_s+ " to "+new_rating+". Press Return to continue."
       gets
     end
 
-      def delete_registration
+    def delete_registration
         view_my_courses
         puts ""
         puts ""
         puts "Enter the number of the course registration you would like to delete. "
         puts ""
         puts ""
-        puts ">"
+        print '>> '
         course_id = get_input
         course_to_drop = @student_user.courses.destroy(course_id.to_i)
-        puts "You are no longer registered for the class. Press Return to continue."
+        puts "You are no longer registered for: "+course_to_drop.name.to_s+ ". Press Return to continue."
         gets
-      end
+    end
 
   end
