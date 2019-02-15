@@ -18,9 +18,11 @@ class CLI
         break
       when '1' #register for a course
         register_student
-      when '2'#update my rating
+      when '2'#view courses
         view_my_courses
-      when '3'  #delete my course registration
+      when '3' #update a rating
+        update_rating
+      when '4'  #delete my course registration
         delete_registration
       end
     end
@@ -29,7 +31,7 @@ class CLI
   def greet
     puts '*   *   *   *   Welcome to CLIENT   *   *   *   *'
     puts ''
-    puts '   An online course listing evaluation tool'
+    puts '       Your Course LIsting EvaluatioN Tool'
     puts ''
     puts ''
     puts 'Press q to exit CLIENT.'
@@ -37,8 +39,10 @@ class CLI
     puts 'Press 1 to register for a course.'
     puts ''
     puts 'Press 2 to view your courses.'
+    puts ""
+    puts 'Press 3 to update a course rating.'
     puts ''
-    puts 'Press 3 to delete your registration.'
+    puts 'Press 4 to delete your registration.'
     puts ''
     print '> '
   end
@@ -58,7 +62,10 @@ class CLI
         puts "Thank you, " + name + ". You\'re now a registered CLIENT user."
       else
         @student_user = current_student
-        puts "Welcome back " + @student_user.name + "!"
+        puts ""
+        puts "Welcome back " + @student_user.name + "! Press Return to continue."
+        puts ""
+        gets
       end
     #if it exists, assign it to an instance variable
     #if not exists, create student
@@ -135,8 +142,8 @@ class CLI
       puts ""
       puts ""
       puts ">>"
-      course_id = get_input
-      course_to_update = @student_user.courses.find(course_id.to_i)
+      course_id = get_input.to_i
+      student_course_to_update = @student_user.student_courses.find_by(course_id: course_id)
       puts ""
       puts ""
       puts "Enter the new rating. "
@@ -144,10 +151,10 @@ class CLI
       puts ""
       puts ">>"
       new_rating = get_input.to_i
-      course_to_update.update(rating: new_rating)
+      student_course_to_update.update(rating: new_rating)
       puts ""
       puts ""
-      puts "You have updated the rating for " +course_to_update.name+ " to "+new_rating+". Press Return to continue."
+      puts "You have updated the rating. Press Return to continue."
       gets
     end
 
@@ -161,7 +168,7 @@ class CLI
         puts ">"
         course_id = get_input
         course_to_drop = @student_user.courses.destroy(course_id.to_i)
-        puts "You are no longer registered for: "+ course_to_drop.name + ". Press Return to continue."
+        puts "You are no longer registered for the class. Press Return to continue."
         gets
       end
 
