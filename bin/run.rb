@@ -5,4 +5,4 @@ require_relative 'CLI.rb'
 cli = CLI.new
 cli.start
 
-puts "ummmmm not today, satan"
+puts "Thank you for using CLIENT."

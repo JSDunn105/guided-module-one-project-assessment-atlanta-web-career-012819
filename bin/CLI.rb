@@ -44,7 +44,7 @@ class CLI
     puts ''
     puts 'Press 4 to delete your registration.'
     puts ''
-    print '> '
+    print '>> '
   end
 
   def get_input
@@ -94,6 +94,8 @@ class CLI
   def register_student
     view_courses
     puts "Enter the ID of the course you want to take."
+    puts ""
+    print '>> '
     course_id=get_input
     course_ids = Course.all.map {|ci| ci.id}
       while true
@@ -102,10 +104,11 @@ class CLI
         puts "Registration successful!"
         puts "Press Enter to continue."
         gets
-        # sleep(2)
         break
       else
         puts "Please select an ID from the course list."
+        print '>> '
+
       end
     end
   end
@@ -121,13 +124,9 @@ class CLI
   def view_my_courses
       if @student_user.courses.length != 0
         puts "You are registered for these courses:"
-            @student_user.courses.each {|c|
+        @student_user.courses.each {|c|
                           puts c.id.to_s + " - " + c.title
                                       }
-        # puts "Press Return to continue."
-        # puts ""
-        # puts ">>"
-        # gets
       else
         puts "You haven't registered for any courses. Press Return to continue."
         gets
