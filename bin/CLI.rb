@@ -21,7 +21,7 @@ class CLI
       when '2'#update my rating
         view_courses
       when '3'  #delete my course registration
-         delete_registration
+        delete_registration
       end
     end
   end
@@ -86,15 +86,19 @@ class CLI
     view_courses
     puts "Enter the ID of the course you want to take."
     course_id=get_input
-    course_ids = Course.all.map
-      do while
-    course_ids = Course.all.map
-      if course_ids.include?(course_id)
-        StudentCourse.create(student_id: @student_user.id, course_id: course, rating: 0)
+    course_ids = Course.all.map {|ci| ci.id}
+      while true
+      if course_ids.include?(course_id.to_i)
+        reg = StudentCourse.create(student_id: @student_user.id, course_id: course_id.to_i, rating: 0)
         puts "Registration successful!"
+        puts "Press Enter to continue."
+        gets
+        # sleep(2)
+        break
       else
         puts "Please select an ID from the course list."
       end
+    end
   end
 
   def view_courses
@@ -109,14 +113,21 @@ class CLI
     puts "You are registered for these courses:"
     courses = StudentCourse.find_by(student_id: @student_user.id)
     courses.each {|c|
-                      puts c.title
+                puts c.id.to_s + " - " + c.title
                     }
   end
 
   def delete_registration
+    binding.pry
     view_my_courses
+    puts ""
+    puts ""
     puts "Enter the number of the course registration you would like to delete. "
-
+    puts ""
+    puts ""
+    puts ">"
+    course_id = get_input
+    StudentCourse.find_by
   end
 
 

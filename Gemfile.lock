@@ -15,6 +15,7 @@ GEM
     arel (9.0.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.4)
+    date (2.0.0)
     faker (1.9.3)
       i18n (>= 0.7)
     i18n (1.5.3)
@@ -47,6 +48,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  date
   faker
   pry
   require_all
