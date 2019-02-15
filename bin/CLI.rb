@@ -127,88 +127,42 @@ class CLI
       end
   end
 
-  def update_rating
-    view_my_courses
-    puts ""
-    puts ""
-    puts "Enter the number of the course rating you would like to update. "
-    puts ""
-    puts ""
-    puts ">"
-    course_id = get_input
-    puts ""
-    puts ""
-    puts "Enter the new rating. "
-    puts ""
-    puts ""
-    puts ">"
-    new_rating = get_input
+    def update_rating
+      view_my_courses
+      puts ""
+      puts ""
+      puts "Enter the number of the course rating you would like to update. "
+      puts ""
+      puts ""
+      puts ">>"
+      course_id = get_input
+      course_to_update = @student_user.courses.find(course_id.to_i)
+      puts ""
+      puts ""
+      puts "Enter the new rating. "
+      puts ""
+      puts ""
+      puts ">>"
+      new_rating = get_input.to_i
+      course_to_update.update(rating: new_rating)
+      puts ""
+      puts ""
+      puts "You have updated the rating for " +course_to_update.name+ " to "+new_rating+". Press Return to continue."
+      gets
+    end
 
-    rating_to_change=@student_user.courses.up
+      def delete_registration
+        view_my_courses
+        puts ""
+        puts ""
+        puts "Enter the number of the course registration you would like to delete. "
+        puts ""
+        puts ""
+        puts ">"
+        course_id = get_input
+        course_to_drop = @student_user.courses.destroy(course_id.to_i)
+        puts "You are no longer registered for: "+ course_to_drop.name + ". Press Return to continue."
+        gets
+      end
 
-  end
-
-  def delete_registration
-    view_my_courses
-    puts ""
-    puts ""
-    puts "Enter the number of the course registration you would like to delete. "
-    puts ""
-    puts ""
-    puts ">"
-    course_id = get_input
-    course_to_drop = @student_user.courses.destroy(course_id.to_i)
-    # .where(course_id: course_id.to_i).destroy
-    puts "You are no longer registered for: "+course_to_drop.name+ ". Press Return to continue."
-    gets
-
-  end
-
-
-  # def learn
-  #   loop do
-  #     puts 'Choose an adventure!'
-  #     puts
-  #     @learntopics.keys.each do |topic|
-  #       puts topic
-  #     end
-  #     print '> '
-  #     input = get_input
-  #     if @learntopics.has_key?(input)
-  #       puts "WISDOM: #{@learntopics[input]}"
-  #     else
-  #       break
-  #     end
-  #   end
-  # end
-  #
-  #
-  # def user_posts
-  #   users = get_data("#{@api_url}/users")
-  #   users = users.first(5)
-  #   loop do
-  #     puts 'Choose a user!'
-  #     puts
-  #     users.each do |user|
-  #       puts user["name"]
-  #     end
-  #     print '> '
-  #     username = get_input
-  #     user = users.find { |user| user["name"] == username }
-  #     if user
-  #       show_user_titles(user)
-  #     else
-  #       break
-  #     end
-  #   end
-  # end
-
-  # def show_user_titles(user)
-  #   titles = get_data("#{@api_url}/posts?userId=#{user["id"]}")
-  #   titles = titles.first(5)
-  #   puts "Titles by #{user["name"]}:"
-  #   puts
-  #   titles.each do |title|
-  #     puts title["title"]
-  #   end
   end
