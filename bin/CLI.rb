@@ -19,7 +19,7 @@ class CLI
       when '1' #register for a course
         register_student
       when '2'#update my rating
-        view_courses
+        view_my_courses
       when '3'  #delete my course registration
         delete_registration
       end
@@ -74,7 +74,9 @@ class CLI
   def find_student
     current_student = Student.find_by(name: @student_user)
     # If me_student.is_empty? == true || me_student == nil
-      puts "Welcome back " + me_student.name.to_s + "!"
+      puts "Welcome back " + me_student.name.to_s + "! Press Return to continue."
+      gets
+
     # else
     #   puts "No record exists for " + me_student + ". Please try again."
     #   break
@@ -110,15 +112,43 @@ class CLI
   end
 
   def view_my_courses
-    puts "You are registered for these courses:"
-    courses = StudentCourse.find_by(student_id: @student_user.id)
-    courses.each {|c|
-                puts c.id.to_s + " - " + c.title
-                    }
+      if @student_user.courses.length != 0
+        puts "You are registered for these courses:"
+            @student_user.courses.each {|c|
+                          puts c.id.to_s + " - " + c.title
+                                      }
+        # puts "Press Return to continue."
+        # puts ""
+        # puts ">>"
+        # gets
+      else
+        puts "You haven't registered for any courses. Press Return to continue."
+        gets
+      end
+  end
+
+  def update_rating
+    view_my_courses
+    puts ""
+    puts ""
+    puts "Enter the number of the course rating you would like to update. "
+    puts ""
+    puts ""
+    puts ">"
+    course_id = get_input
+    puts ""
+    puts ""
+    puts "Enter the new rating. "
+    puts ""
+    puts ""
+    puts ">"
+    new_rating = get_input
+
+    rating_to_change=@student_user.courses.up
+
   end
 
   def delete_registration
-    binding.pry
     view_my_courses
     puts ""
     puts ""
@@ -127,7 +157,11 @@ class CLI
     puts ""
     puts ">"
     course_id = get_input
-    StudentCourse.find_by
+    course_to_drop = @student_user.courses.destroy(course_id.to_i)
+    # .where(course_id: course_id.to_i).destroy
+    puts "You are no longer registered for: "+course_to_drop.name+ ". Press Return to continue."
+    gets
+
   end
 
 
